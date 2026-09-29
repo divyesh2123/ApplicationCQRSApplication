@@ -1,4 +1,5 @@
-﻿using ApplicationCQRSApplication.Features.Employees.Queries.GetEmployee;
+﻿using ApplicationCQRSApplication.Features.Employees.Commands.CreateEmployee;
+using ApplicationCQRSApplication.Features.Employees.Queries.GetEmployee;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,9 +29,28 @@ namespace ApplicationCQRSApplication.Controllers
             return Ok(result);
         }
 
-        public IActionResult Index()
+      public IActionResult Index()
         {
             return View();
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Create()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Create(
+        CreateEmployeeCommand command)
+        {
+            var employeeId = await _sender.Send(command);
+
+            return RedirectToAction("Index");
+        }
+
+
     }
 }

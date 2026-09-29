@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Folder Include="Data\" />
-    <Folder Include="Features\Employees\Commands\CreateEmployee\" />
     <Folder Include="Features\Employees\Commands\DeleteEmployee\" />
     <Folder Include="Features\Employees\Commands\UpdateEmployee\" />
     <Folder Include="Features\Employees\Queries\GetEmployees\" />
