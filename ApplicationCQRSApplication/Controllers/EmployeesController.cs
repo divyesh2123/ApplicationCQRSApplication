@@ -1,5 +1,8 @@
-﻿using ApplicationCQRSApplication.Features.Employees.Commands.CreateEmployee;
+﻿using ApplicationCQRSApplication.Data;
+using ApplicationCQRSApplication.DTOs;
+using ApplicationCQRSApplication.Features.Employees.Commands.CreateEmployee;
 using ApplicationCQRSApplication.Features.Employees.Queries.GetEmployee;
+using ApplicationCQRSApplication.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,9 +12,13 @@ namespace ApplicationCQRSApplication.Controllers
     {
         private readonly ISender _sender;
 
-        public EmployeesController(ISender sender)
+        private readonly IGenericRepository<Employee> _repository;
+
+        public EmployeesController(ISender sender, IGenericRepository<Employee> repository)
         {
             _sender = sender;
+            _repository = repository;
+
         }
 
         [HttpGet]
@@ -49,6 +56,17 @@ namespace ApplicationCQRSApplication.Controllers
             var employeeId = await _sender.Send(command);
 
             return RedirectToAction("Index");
+        }
+
+
+        [HttpGet]
+
+        public async Task<IActionResult> IndexInfo(
+       GridRequest request)
+        {
+            var result = await _repository.GetPagedAsync(request);
+
+            return Ok(result);
         }
 
 

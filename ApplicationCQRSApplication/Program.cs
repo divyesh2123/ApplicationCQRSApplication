@@ -1,3 +1,4 @@
+using ApplicationCQRSApplication.Data;
 using ApplicationCQRSApplication.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +14,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(
         typeof(Program).Assembly));
+
+
+builder.Services.AddScoped(
+    typeof(IGenericRepository<>),
+    typeof(GenericRepository<>));
 
 
 var app = builder.Build();
